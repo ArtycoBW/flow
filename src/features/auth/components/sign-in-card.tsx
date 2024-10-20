@@ -1,3 +1,5 @@
+'use client'
+
 import { DottedSeparator } from '@/components/dotted-separator'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,7 +15,7 @@ import { loginSchema } from '../schema'
 import { useLogin } from '../api/use-login'
 
 export const SignInCard = () => {
-  const { mutate } = useLogin()
+  const { mutate, isPending } = useLogin()
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -46,7 +48,7 @@ export const SignInCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder="Введите ваш email" type="email" />
+                    <Input {...field} disabled={isPending} placeholder="Введите ваш email" type="email" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -59,14 +61,14 @@ export const SignInCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder="Введите ваш пароль" type="password" />
+                    <Input {...field} disabled={isPending} placeholder="Введите ваш пароль" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button disabled={false} size="lg" className="w-full">
+            <Button disabled={isPending} size="lg" className="w-full">
               Войти
             </Button>
           </form>
@@ -76,11 +78,11 @@ export const SignInCard = () => {
         <DottedSeparator />
       </div>
       <CardContent className="p-7 flex flex-col gap-4">
-        <Button variant="secondary" disabled={false} size="lg" className="w-full">
+        <Button disabled={isPending} variant="secondary" size="lg" className="w-full">
           <FcGoogle className="mr-2 size-5" />
           Войти с Google
         </Button>
-        <Button variant="secondary" disabled={false} size="lg" className="w-full">
+        <Button disabled={isPending} variant="secondary" size="lg" className="w-full">
           <FaGithub className="mr-2 size-5" />
           Войти с Github
         </Button>

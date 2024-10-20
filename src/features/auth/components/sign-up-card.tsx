@@ -1,3 +1,5 @@
+'use client'
+
 import { DottedSeparator } from '@/components/dotted-separator'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,7 +15,7 @@ import { registerSchema } from '../schema'
 import { useRegister } from '../api/use-register'
 
 export const SignUpCard = () => {
-  const { mutate } = useRegister()
+  const { mutate, isPending } = useRegister()
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -57,7 +59,7 @@ export const SignUpCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder="Введите ваше имя" type="text" />
+                    <Input {...field} disabled={isPending} placeholder="Введите ваше имя" type="text" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -70,7 +72,7 @@ export const SignUpCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder="Введите ваш email" type="email" />
+                    <Input {...field} disabled={isPending} placeholder="Введите ваш email" type="email" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,14 +85,14 @@ export const SignUpCard = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder="Введите ваш пароль" type="password" />
+                    <Input {...field} disabled={isPending} placeholder="Введите ваш пароль" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button disabled={false} size="lg" className="w-full">
+            <Button disabled={isPending} size="lg" className="w-full">
               Войти
             </Button>
           </form>
@@ -100,11 +102,11 @@ export const SignUpCard = () => {
         <DottedSeparator />
       </div>
       <CardContent className="p-7 flex flex-col gap-4">
-        <Button variant="secondary" disabled={false} size="lg" className="w-full">
+        <Button variant="secondary" disabled={isPending} size="lg" className="w-full">
           <FcGoogle className="mr-2 size-5" />
           Войти с Google
         </Button>
-        <Button variant="secondary" disabled={false} size="lg" className="w-full">
+        <Button variant="secondary" disabled={isPending} size="lg" className="w-full">
           <FaGithub className="mr-2 size-5" />
           Войти с Github
         </Button>
