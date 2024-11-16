@@ -38,9 +38,17 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
   const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
     const finalValues = { ...values, image: values.image instanceof File ? values.image : '' }
 
-    mutate({
-      form: finalValues,
-    })
+    mutate(
+      {
+        form: finalValues,
+      },
+      {
+        onSuccess: () => {
+          form.reset()
+          // TODO: добавить редирект на новое рабочее пространство
+        },
+      },
+    )
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
