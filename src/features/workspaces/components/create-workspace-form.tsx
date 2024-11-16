@@ -19,11 +19,7 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ImageIcon } from 'lucide-react'
 
-interface CreateWorkspaceFormProps {
-  onCancel?: () => void
-}
-
-export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
+export function CreateWorkspaceForm() {
   const { mutate, isPending } = useCreateWorkspace()
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -45,10 +41,14 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
       {
         onSuccess: () => {
           form.reset()
-          // TODO: добавить редирект на новое рабочее пространство
+          // TODO: добавить редирект на новый проект
         },
       },
     )
+  }
+
+  const onCancel = () => {
+    form.reset()
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Cоздать новое рабочее пространство</CardTitle>
+        <CardTitle className="text-xl font-bold">Cоздать новый проект</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -76,9 +76,9 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Название рабочего пространства</FormLabel>
+                    <FormLabel>Название проекта</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Введите название пространства" />
+                      <Input {...field} placeholder="Введите название проекта" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,7 +108,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                         </Avatar>
                       )}
                       <div className="flex flex-col">
-                        <p className="text-sm">Иконка рабочего пространства</p>
+                        <p className="text-sm">Иконка проекта</p>
                         <p className="text-sm text-muted-foreground">JPG, PNG, SVG или JPEG, не более 1МБ</p>
                         {/* TODO: добавить gif, когда будем переносить на potgress */}
                         <input
@@ -140,7 +140,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 Отменить
               </Button>
               <Button type="submit" size="lg" disabled={isPending}>
-                Создать пространство
+                Создать проект
               </Button>
             </div>
           </form>

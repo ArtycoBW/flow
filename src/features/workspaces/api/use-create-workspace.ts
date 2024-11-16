@@ -14,17 +14,17 @@ export const useCreateWorkspace = () => {
       const response = await client.api.workspaces['$post']({ form })
 
       if (!response.ok) {
-        throw new Error('Произошла ошибка при создании рабочего пространства')
+        throw new Error('Произошла ошибка при создании проекта')
       }
 
       return await response.json()
     },
     onSuccess: () => {
-      toast.success('Рабочее пространство успешно создано')
+      toast.success('Проект успешно создано')
       queryClient.invalidateQueries({ queryKey: ['workspaces'] })
     },
     onError: () => {
-      toast.error('Произошла ошибка при создании рабочего пространства')
+      toast.error('Произошла ошибка при создании проекта')
     },
   })
 
