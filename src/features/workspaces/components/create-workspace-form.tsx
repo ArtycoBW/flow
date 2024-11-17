@@ -18,8 +18,14 @@ import { useRef } from 'react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ImageIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-export function CreateWorkspaceForm() {
+interface CreateWorkspaceFormProps {
+  onCancel: () => void
+}
+
+export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
+  const router = useRouter()
   const { mutate, isPending } = useCreateWorkspace()
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -39,16 +45,12 @@ export function CreateWorkspaceForm() {
         form: finalValues,
       },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.reset()
-          // TODO: добавить редирект на новый проект
+          router.push(`/workspaces/${data.$id}`)
         },
       },
     )
-  }
-
-  const onCancel = () => {
-    form.reset()
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

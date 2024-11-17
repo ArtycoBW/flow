@@ -68,3 +68,12 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::--webkit-scrollbar {
+  display: none;
+}
