@@ -20,7 +20,7 @@ export const useCreateWorkspace = () => {
       return await response.json()
     },
     onSuccess: () => {
-      toast.success('Проект успешно создано')
+      toast.success('Проект успешно создан')
       queryClient.invalidateQueries({ queryKey: ['workspaces'] })
     },
     onError: () => {

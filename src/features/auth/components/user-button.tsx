@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { useCurrent } from '../api/use-current'
+import { useCurrent } from '@/features/auth/api/use-current'
 import { Loader, LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { DottedSeparator } from '@/components/dotted-separator'
-import { useLogout } from '../api/use-logout'
+import { useLogout } from '@/features/auth/api/use-logout'
 
 const UserButton = () => {
   const { data: user, isLoading } = useCurrent()
@@ -24,7 +24,7 @@ const UserButton = () => {
 
   const { name, email } = user
 
-  const avatartFallback = name ? name.charAt(0).toUpperCase() : email.charAt(0).toUpperCase() ?? 'A'
+  const avatartFallback = name ? name.charAt(0).toUpperCase() : (email.charAt(0).toUpperCase() ?? 'A')
 
   return (
     <DropdownMenu modal={false}>

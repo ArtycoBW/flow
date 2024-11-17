@@ -5,45 +5,48 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-import { createWorkspaceSchema } from '../schemas'
+import { editWorkspaceSchema } from '../schemas'
 
 import { DottedSeparator } from '@/components/dotted-separator'
 
-import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { useCreateWorkspace } from '@/features/workspaces/api/use-create-workspace'
-import { useRef } from 'react'
+import { Input } from '@/components/ui/input'
+import { ArrowLeft, ImageIcon } from 'lucide-react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { ImageIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { useRef } from 'react'
+import { useUpdateWorkspace } from '../api/use-update-workspace'
+import { Workspace } from '../types'
 
-interface CreateWorkspaceFormProps {
+interface EditWorkspaceFormProps {
   onCancel?: () => void
+  initialValues: Workspace
 }
 
-export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
+export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceFormProps) {
   const router = useRouter()
-  const { mutate, isPending } = useCreateWorkspace()
+  const { mutate, isPending } = useUpdateWorkspace()
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const form = useForm<z.infer<typeof createWorkspaceSchema>>({
-    resolver: zodResolver(createWorkspaceSchema),
+  const form = useForm<z.infer<typeof editWorkspaceSchema>>({
+    resolver: zodResolver(editWorkspaceSchema),
     defaultValues: {
-      name: '',
+      ...initialValues,
+      image: initialValues.imageUrl ?? '',
     },
   })
 
-  const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
+  const onSubmit = (values: z.infer<typeof editWorkspaceSchema>) => {
     const finalValues = { ...values, image: values.image instanceof File ? values.image : '' }
 
     mutate(
       {
         form: finalValues,
+        param: { workspaceId: initialValues.$id },
       },
       {
         onSuccess: ({ data }) => {
@@ -64,8 +67,15 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
 
   return (
     <Card className="w-full h-full border-none shadow-none">
-      <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Cоздать новый проект</CardTitle>
+      <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
+        <Button
+          size="sm"
+          variant="secondary"
+          onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.$id}`)}>
+          <ArrowLeft size={4} />
+          Отменить
+        </Button>
+        <CardTitle className="text-xl font-bold">{initialValues.name}</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -122,27 +132,15 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                           onChange={handleImageChange}
                           disabled={isPending}
                         />
-                        {field.value ? (
-                          <Button
-                            type="button"
-                            disabled={isPending}
-                            className="w-fit mt-2"
-                            size="xs"
-                            variant="destructive"
-                            onClick={() => form.setValue('image', '')}>
-                            Удалить иконку
-                          </Button>
-                        ) : (
-                          <Button
-                            type="button"
-                            disabled={isPending}
-                            className="w-fit mt-2"
-                            size="xs"
-                            variant="territory"
-                            onClick={() => inputRef.current?.click()}>
-                            Загрузить иконку
-                          </Button>
-                        )}
+                        <Button
+                          type="button"
+                          disabled={isPending}
+                          className="w-fit mt-2"
+                          size="xs"
+                          variant="territory"
+                          onClick={() => inputRef.current?.click()}>
+                          Изменить иконку
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -151,17 +149,8 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
             </div>
             <DottedSeparator className="py-7" />
             <div className="flex items-center justify-between">
-              <Button
-                type="button"
-                size="lg"
-                variant="secondary"
-                onClick={onCancel}
-                disabled={isPending}
-                className={cn(onCancel ? 'block' : 'hidden')}>
-                Отменить
-              </Button>
               <Button type="submit" size="lg" disabled={isPending}>
-                Создать проект
+                Изменить проект
               </Button>
             </div>
           </form>
