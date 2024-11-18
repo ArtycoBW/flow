@@ -13,7 +13,7 @@ export async function createSessionClient() {
 
   const session = await cookies().get(AUTH_COOKIE)
 
-  if (!session || !session.value) throw new Error('Неавторизировано')
+  if (!session || !session.value) throw new Error('Неавторизирован')
 
   client.setSession(session.value)
 

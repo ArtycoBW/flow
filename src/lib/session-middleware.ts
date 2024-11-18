@@ -35,7 +35,7 @@ export const sessionMiddleware = createMiddleware<AdditionalContext>(async (c, n
   const session = getCookie(c, AUTH_COOKIE)
 
   if (!session) {
-    return c.json({ error: 'Неавторизировано' }, 401)
+    return c.json({ error: 'Неавторизирован' }, 401)
   }
 
   client.setSession(session)
