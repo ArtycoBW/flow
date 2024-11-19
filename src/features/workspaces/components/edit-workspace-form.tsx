@@ -65,7 +65,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
       },
       {
         onSuccess: () => {
-          router.push('/')
+          window.location.href = '/'
         },
       },
     )
