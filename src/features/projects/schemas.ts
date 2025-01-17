@@ -5,3 +5,8 @@ export const createProjectSchema = z.object({
   image: z.union([z.instanceof(File), z.string().transform(value => (value === '' ? undefined : value))]).optional(),
   workspaceId: z.string(),
 })
+
+export const updateProjectSchema = z.object({
+  name: z.string().min(2, 'Минимум 1 символ'),
+  image: z.union([z.instanceof(File), z.string().transform(value => (value === '' ? undefined : value))]).optional(),
+})
