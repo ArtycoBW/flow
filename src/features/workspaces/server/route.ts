@@ -14,7 +14,7 @@ import { z } from 'zod'
 import { Workspace } from '../types'
 
 const app = new Hono()
-  .get('/', sessionMiddleware, async (c) => {
+  .get('/', sessionMiddleware, async c => {
     const user = c.get('user')
     const databases = c.get('databases')
 
@@ -22,7 +22,7 @@ const app = new Hono()
 
     if (members.total === 0) return c.json({ data: { documents: [], total: 0 } })
 
-    const workspaceIds = members.documents.map((member) => member.workspaceId)
+    const workspaceIds = members.documents.map(member => member.workspaceId)
 
     const workspaces = await databases.listDocuments(DATABASE_ID, WORKSPACES_ID, [
       Query.orderDesc('$createdAt'),
@@ -31,7 +31,7 @@ const app = new Hono()
 
     return c.json({ data: workspaces })
   })
-  .post('/', zValidator('form', createWorkspaceSchema), sessionMiddleware, async (c) => {
+  .post('/', zValidator('form', createWorkspaceSchema), sessionMiddleware, async c => {
     const databases = c.get('databases')
     const storage = c.get('storage')
     const user = c.get('user')
@@ -63,7 +63,7 @@ const app = new Hono()
 
     return c.json({ data: workspace })
   })
-  .patch('/:workspaceId', sessionMiddleware, zValidator('form', createWorkspaceSchema), async (c) => {
+  .patch('/:workspaceId', sessionMiddleware, zValidator('form', createWorkspaceSchema), async c => {
     const databases = c.get('databases')
     const storage = c.get('storage')
     const user = c.get('user')
@@ -100,7 +100,7 @@ const app = new Hono()
 
     return c.json({ data: workspace })
   })
-  .delete('/:workspaceId', sessionMiddleware, async (c) => {
+  .delete('/:workspaceId', sessionMiddleware, async c => {
     const databases = c.get('databases')
     const user = c.get('user')
 
@@ -118,7 +118,7 @@ const app = new Hono()
 
     return c.json({ data: { $id: workspaceId } })
   })
-  .post('/:workspaceId/reset-invite-code', sessionMiddleware, async (c) => {
+  .post('/:workspaceId/reset-invite-code', sessionMiddleware, async c => {
     const databases = c.get('databases')
     const user = c.get('user')
 
@@ -136,7 +136,7 @@ const app = new Hono()
 
     return c.json({ data: workspace })
   })
-  .post('/:workspaceId/join', sessionMiddleware, zValidator('json', z.object({ code: z.string() })), async (c) => {
+  .post('/:workspaceId/join', sessionMiddleware, zValidator('json', z.object({ code: z.string() })), async c => {
     const { workspaceId } = c.req.param()
     const { code } = c.req.valid('json')
 
@@ -145,7 +145,7 @@ const app = new Hono()
 
     const member = await getMember({ databases, workspaceId, userId: user.$id })
 
-    if (member) return c.json({ error: 'Вы уже состоите в данном проекте' }, 400)
+    if (member) return c.json({ error: 'Вы уже состоите в данном рабочем пространстве' }, 400)
 
     const workspace = await databases.getDocument<Workspace>(DATABASE_ID, WORKSPACES_ID, workspaceId)
 

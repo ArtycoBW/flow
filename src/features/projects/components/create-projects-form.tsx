@@ -1,54 +1,54 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-
-import { createWorkspaceSchema } from '../schemas'
-
-import { DottedSeparator } from '@/components/dotted-separator'
-
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { useCreateWorkspace } from '@/features/workspaces/api/use-create-workspace'
 import { useRef } from 'react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { ImageIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
-interface CreateWorkspaceFormProps {
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { DottedSeparator } from '@/components/dotted-separator'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+
+import { createProjectSchema } from '../schemas'
+import { useCreateProjects } from '../api/use-create-projects'
+import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id'
+
+interface CreateProjectsFormProps {
   onCancel?: () => void
 }
 
-export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
+export function CreateProjectsForm({ onCancel }: CreateProjectsFormProps) {
+  const workspaceId = useWorkspaceId()
   const router = useRouter()
-  const { mutate, isPending } = useCreateWorkspace()
+  const { mutate, isPending } = useCreateProjects()
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const form = useForm<z.infer<typeof createWorkspaceSchema>>({
-    resolver: zodResolver(createWorkspaceSchema),
+  const form = useForm<z.infer<typeof createProjectSchema>>({
+    resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
     defaultValues: {
       name: '',
     },
   })
 
-  const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
-    const finalValues = { ...values, image: values.image instanceof File ? values.image : '' }
+  const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
+    const finalValues = { ...values, workspaceId, image: values.image instanceof File ? values.image : '' }
 
     mutate(
       {
         form: finalValues,
       },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: () => {
           form.reset()
-          router.push(`/workspaces/${data.$id}`)
+          //TODO: redirect to project screen
         },
       },
     )
@@ -65,7 +65,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Cоздать новое рабочее пространство</CardTitle>
+        <CardTitle className="text-xl font-bold">Cоздать новый проект</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -79,9 +79,9 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Название рабочего пространства</FormLabel>
+                    <FormLabel>Название проекта</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Введите название рабочего пространства" />
+                      <Input {...field} placeholder="Введите название проекта" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,7 +111,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                         </Avatar>
                       )}
                       <div className="flex flex-col">
-                        <p className="text-sm">Иконка рабочего пространства</p>
+                        <p className="text-sm">Иконка проекта</p>
                         <p className="text-sm text-muted-foreground">JPG, PNG, SVG или JPEG, не более 1МБ</p>
                         {/* TODO: добавить gif, когда будем переносить на potgress */}
                         <input
@@ -161,7 +161,7 @@ export function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 Отменить
               </Button>
               <Button type="submit" size="lg" disabled={isPending}>
-                Создать рабочее пространство
+                Создать проект
               </Button>
             </div>
           </form>

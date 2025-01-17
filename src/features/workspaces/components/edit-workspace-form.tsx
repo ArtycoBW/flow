@@ -36,7 +36,11 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace()
   const { mutate: resetInviteCode, isPending: isResettingInviteCode } = useResetInviteCode()
 
-  const [DeleteDialog, confirmDelete] = useConfirm('Удаление проекта', 'Это действие необратимо', 'destructive')
+  const [DeleteDialog, confirmDelete] = useConfirm(
+    'Удаление рабочего пространства',
+    'Это действие необратимо',
+    'destructive',
+  )
 
   const [ResetDialog, confirmReset] = useConfirm(
     'Сброс ссылки приглашения',
@@ -146,9 +150,9 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Название проекта</FormLabel>
+                      <FormLabel>Название рабочего пространства</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Введите название проекта" />
+                        <Input {...field} placeholder="Введите название рабочего пространства" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -178,7 +182,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
                           </Avatar>
                         )}
                         <div className="flex flex-col">
-                          <p className="text-sm">Иконка проекта</p>
+                          <p className="text-sm">Иконка рабочего пространства</p>
                           <p className="text-sm text-muted-foreground">JPG, PNG, SVG или JPEG, не более 1МБ</p>
                           {/* TODO: добавить gif, когда будем переносить на potgress */}
                           <input
@@ -207,7 +211,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
               <DottedSeparator className="py-7" />
               <div className="flex items-center justify-end">
                 <Button type="submit" size="lg" disabled={isPending}>
-                  Изменить проект
+                  Изменить рабочее пространство
                 </Button>
               </div>
             </form>
@@ -220,7 +224,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
           <div className="flex flex-col">
             <h3 className="font-bold">Пригласить участников🤝</h3>
             <p className="text-sm text-muted-foreground">
-              Используйте ссылку ниже, чтобы пригласить участников в проект.
+              Используйте ссылку ниже, чтобы пригласить участников в рабочее пространство.
             </p>
             <div className="mt-4">
               <div className="flex items-center gap-x-2">
@@ -249,7 +253,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
           <div className="flex flex-col">
             <h3 className="font-bold">Опасная зона💀</h3>
             <p className="text-sm text-muted-foreground">
-              Удаление проекта является необратимым и приводит к удалению всех связанных с ним данных.
+              Удаление рабочего пространства является необратимым и приводит к удалению всех связанных с ним данных.
             </p>
             <DottedSeparator className="py-7" />
             <Button
@@ -259,7 +263,7 @@ export function EditWorkspaceForm({ onCancel, initialValues }: EditWorkspaceForm
               disabled={isPending || isDeletingWorkspace}
               type="button"
               onClick={handleDelete}>
-              Удалить проект
+              Удалить рабочее пространство
             </Button>
           </div>
         </CardContent>

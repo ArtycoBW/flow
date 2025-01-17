@@ -30,9 +30,9 @@ export const JoinWorkspaceForm = ({ initialValues }: JoinWorkspaceFormProps) => 
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="p-7">
-        <CardTitle className="text-xl font-bold">Присоединиться к проекту</CardTitle>
+        <CardTitle className="text-xl font-bold">Присоединиться к рабочему простанству</CardTitle>
         <CardDescription>
-          Вас пригласили присоединиться к <strong>{initialValues.name}</strong> проекту
+          Вас пригласили присоединиться к <strong>{initialValues.name}</strong> рабочему пространству
         </CardDescription>
       </CardHeader>
       <DottedSeparator className="px-7" />

@@ -14,18 +14,18 @@ export const useUpdateWorkspace = () => {
       const response = await client.api.workspaces[':workspaceId']['$patch']({ form, param })
 
       if (!response.ok) {
-        throw new Error('Произошла ошибка при обновлении проекта')
+        throw new Error('Произошла ошибка при обновлении рабочего пространства')
       }
 
       return await response.json()
     },
     onSuccess: ({ data }) => {
-      toast.success('Проект успешно обновлён')
+      toast.success('Рабочее пространство успешно обновлён')
       queryClient.invalidateQueries({ queryKey: ['workspaces'] })
       queryClient.invalidateQueries({ queryKey: ['workspaces', data.$id] })
     },
     onError: () => {
-      toast.error('Произошла ошибка при обновлении проекта')
+      toast.error('Произошла ошибка при обновлении рабочего пространства')
     },
   })
 
