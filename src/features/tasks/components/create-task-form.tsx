@@ -132,11 +132,11 @@ export function CreateTaskForm({ onCancel, projectOptions, memberOptions }: Crea
                       </FormControl>
                       <FormMessage />
                       <SelectContent>
-                        <SelectItem value={TaskStatus.BACKLOG}>БЭКЛОГ</SelectItem>
-                        <SelectItem value={TaskStatus.IN_PROGRESS}>В РАБОТЕ</SelectItem>
-                        <SelectItem value={TaskStatus.IN_REVIEW}>НА РЕВЬЮ</SelectItem>
-                        <SelectItem value={TaskStatus.TODO}>ОТКРЫТО</SelectItem>
-                        <SelectItem value={TaskStatus.DONE}>ГОТОВО</SelectItem>
+                        <SelectItem value={TaskStatus.BACKLOG}>Бэклог</SelectItem>
+                        <SelectItem value={TaskStatus.IN_PROGRESS}>В работе</SelectItem>
+                        <SelectItem value={TaskStatus.IN_REVIEW}>На ревью</SelectItem>
+                        <SelectItem value={TaskStatus.TODO}>Открыто</SelectItem>
+                        <SelectItem value={TaskStatus.DONE}>Готово</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormItem>

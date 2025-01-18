@@ -72,7 +72,6 @@ const app = new Hono()
       Query.orderDesc('$createdAt'),
     ])
 
-    console.log({ projects })
     return c.json({ data: projects })
   })
 
