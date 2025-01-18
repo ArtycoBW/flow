@@ -14,7 +14,7 @@ export const useJoinWorkspace = () => {
       const response = await client.api.workspaces[':workspaceId']['join']['$post']({ param, json })
 
       if (!response.ok) {
-        throw new Error('Произошла ошибка при приглашении в проект')
+        throw new Error('Произошла ошибка при приглашении в рабочее пространство')
       }
 
       return await response.json()
@@ -25,7 +25,7 @@ export const useJoinWorkspace = () => {
       queryClient.invalidateQueries({ queryKey: ['workspace', data.$id] })
     },
     onError: () => {
-      toast.error('Произошла ошибка при приглашении в проект')
+      toast.error('Произошла ошибка при приглашении в рабочее пространство')
     },
   })
 
