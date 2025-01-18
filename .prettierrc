@@ -4,8 +4,20 @@
   "singleQuote": true,
   "bracketSpacing": true,
   "bracketSameLine": true,
-  "printWidth": 120,
   "tabWidth": 2,
-  "endOfLine": "auto",
-  "parser": "typescript"
+  "parser": "typescript",
+  "importOrder": [
+    "^react(.*)",
+    "^@\\b(?:(?!\\/)\\w)+\\b",
+    "^\\w+",
+    "@\\/(.*)",
+    "^([.]+\\/(\\b(?:(?!.*?css$|.*?scss$)\\w)+\\b)|(\\.\\.)+\\/)",
+    "\\/*.*.s?css$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true,
+  "endOfLine": "lf",
+  "arrowParens": "avoid",
+  "printWidth": 120
 }
