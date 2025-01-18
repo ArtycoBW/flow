@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { getCurrent } from '@/features/auth/queries'
 import { getProject } from '@/features/projects/queries'
 import { ProjectsAvatar } from '@/features/projects/components/projects-avatar'
+import { TaskViewSwitcher } from '@/features/tasks/components/task-view-switcher'
 
 interface ProjectIdPageProps {
   params: { projectId: string }
@@ -44,6 +45,7 @@ const ProjectIdPage = async ({ params }: ProjectIdPageProps) => {
           </Button>
         </div>
       </div>
+      <TaskViewSwitcher />
     </div>
   )
 }
