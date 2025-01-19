@@ -8,7 +8,6 @@ type ResponseType = InferResponseType<(typeof client.api.workspaces)[':workspace
 type RequestType = InferRequestType<(typeof client.api.workspaces)[':workspaceId']['reset-invite-code']['$post']>
 
 export const useResetInviteCode = () => {
-  const router = useRouter()
   const queryClient = useQueryClient()
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -23,7 +22,6 @@ export const useResetInviteCode = () => {
     },
     onSuccess: ({ data }) => {
       toast.success('Код приглашения успешно сброшен')
-      router.refresh()
       queryClient.invalidateQueries({ queryKey: ['workspaces'] })
       queryClient.invalidateQueries({ queryKey: ['workspace', data.$id] })
     },

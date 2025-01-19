@@ -8,7 +8,6 @@ type ResponseType = InferResponseType<(typeof client.api.workspaces)[':workspace
 type RequestType = InferRequestType<(typeof client.api.workspaces)[':workspaceId']['$patch']>
 
 export const useUpdateWorkspace = () => {
-  const router = useRouter()
   const queryClient = useQueryClient()
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -23,7 +22,6 @@ export const useUpdateWorkspace = () => {
     },
     onSuccess: ({ data }) => {
       toast.success('Рабочее пространство успешно обновлён')
-      router.refresh()
       queryClient.invalidateQueries({ queryKey: ['workspaces'] })
       queryClient.invalidateQueries({ queryKey: ['workspaces', data.$id] })
     },
