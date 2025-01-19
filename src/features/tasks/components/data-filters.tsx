@@ -87,23 +87,25 @@ export const DataFilters = ({ hideProjectFilter }: DataFilterProps) => {
         </SelectContent>
       </Select>
 
-      <Select defaultValue={projectId ?? undefined} onValueChange={value => onProjectChange(value)}>
-        <SelectTrigger className="w-full lg:w-auto h-8">
-          <div className="flex items-center pr-2">
-            <FolderIcon className="size-4 h-4 w-4 mr-2" />
-            <SelectValue placeholder="Все проекты" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Все проекты</SelectItem>
-          <SelectSeparator />
-          {projectOptions?.map(project => (
-            <SelectItem value={project.value} key={project.value}>
-              {project.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {!hideProjectFilter && (
+        <Select defaultValue={projectId ?? undefined} onValueChange={value => onProjectChange(value)}>
+          <SelectTrigger className="w-full lg:w-auto h-8">
+            <div className="flex items-center pr-2">
+              <FolderIcon className="size-4 h-4 w-4 mr-2" />
+              <SelectValue placeholder="Все проекты" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Все проекты</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map(project => (
+              <SelectItem value={project.value} key={project.value}>
+                {project.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <DatePicker
         placeholder="Дата завершения"
         className="h-8 2-full lg:w-auto"
