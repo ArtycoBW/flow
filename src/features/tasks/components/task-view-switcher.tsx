@@ -11,6 +11,7 @@ import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id'
 import { useGetTasks } from '@/features/tasks/api/use-get-tasks'
 import { DataFilters } from '@/features/tasks/components/data-filters'
 import { DataTable } from '@/features/tasks/components/data-table'
+import { DataKanban } from '@/features/tasks/components/data-kandan'
 import { columns } from '@/features/tasks/components/columns'
 
 import { useCreateTaskModal } from '../hooks/use-create-task-modal'
@@ -64,7 +65,7 @@ export const TaskViewSwitcher = () => {
               <DataTable columns={columns} data={tasks?.documents ?? []} />
             </TabsContent>
             <TabsContent value="kanban" className="mt-0">
-              {JSON.stringify(tasks)}
+              <DataKanban data={tasks?.documents ?? []} />
             </TabsContent>
             <TabsContent value="calendar" className="mt-0">
               {JSON.stringify(tasks)}
