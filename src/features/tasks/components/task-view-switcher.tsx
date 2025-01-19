@@ -2,18 +2,20 @@
 
 import { useCallback } from 'react'
 import { Loader, PlusIcon } from 'lucide-react'
-
 import { useQueryState } from 'nuqs'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-
 import { DottedSeparator } from '@/components/dotted-separator'
+
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id'
-import { useGetTasks } from '@/features/tasks/api/use-get-tasks'
-import { DataFilters } from '@/features/tasks/components/data-filters'
-import { DataTable } from '@/features/tasks/components/data-table'
-import { DataKanban } from '@/features/tasks/components/data-kanban'
-import { columns } from '@/features/tasks/components/columns'
+
+import { useGetTasks } from '../api/use-get-tasks'
+import { DataFilters } from './data-filters'
+import { DataTable } from './data-table'
+import { DataKanban } from './data-kanban'
+import { columns } from './columns'
+import { DataCalendar } from './data-calendar'
 
 import { useCreateTaskModal } from '../hooks/use-create-task-modal'
 import { useTaskFilters } from '../hooks/use-task-filters'
@@ -79,8 +81,8 @@ export const TaskViewSwitcher = () => {
             <TabsContent value="kanban" className="mt-0">
               <DataKanban data={tasks?.documents ?? []} onChange={onKanbanChange} />
             </TabsContent>
-            <TabsContent value="calendar" className="mt-0">
-              {JSON.stringify(tasks)}
+            <TabsContent value="calendar" className="mt-0 h-full pb-4">
+              <DataCalendar data={tasks?.documents ?? []} />
             </TabsContent>
           </>
         )}
