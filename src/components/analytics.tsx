@@ -18,7 +18,7 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
         </div>
         <div className="flex items-center flex-1">
           <AnalyticsCard
-            title="Задачи наблюдателей"
+            title="Задачи c наблюдателями"
             value={data?.assignedTaskCount}
             variant={data?.assignedTaskDifference > 0 ? 'up' : 'down'}
             increaseValue={data?.assignedTaskDifference}
