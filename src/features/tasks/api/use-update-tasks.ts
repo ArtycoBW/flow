@@ -1,8 +1,7 @@
-import { client } from '@/lib/rpc'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { InferRequestType, InferResponseType } from 'hono'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { client } from '@/lib/rpc'
+import { InferRequestType, InferResponseType } from 'hono'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type ResponseType = InferResponseType<(typeof client.api.tasks)[':taskId']['$patch'], 200>
 type RequestType = InferRequestType<(typeof client.api.tasks)[':taskId']['$patch']>
@@ -22,6 +21,9 @@ export const useUpdateTasks = () => {
     },
     onSuccess: ({ data }) => {
       toast.success('Задача успешно обновлена')
+
+      queryClient.invalidateQueries({ queryKey: ['project-analytics'] })
+      queryClient.invalidateQueries({ queryKey: ['workspace-analytics'] })
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
       queryClient.invalidateQueries({ queryKey: ['task', data.$id] })
     },
