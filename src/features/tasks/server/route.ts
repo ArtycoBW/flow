@@ -274,7 +274,7 @@ const app = new Hono()
 
       const member = await getMember({
         databases,
-        workspaceId,
+        workspaceId: workspaceId as string,
         userId: user.$id,
       })
 
