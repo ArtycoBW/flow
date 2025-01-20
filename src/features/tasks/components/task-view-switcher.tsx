@@ -21,6 +21,7 @@ import { useCreateTaskModal } from '../hooks/use-create-task-modal'
 import { useTaskFilters } from '../hooks/use-task-filters'
 import { TaskStatus } from '../types'
 import { useBulkUpdateTasks } from '../api/use-bulk-update-tasks'
+import { useProjectId } from '@/features/projects/hook/use-project-id'
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean
@@ -31,6 +32,7 @@ export const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) =
   const [view, setView] = useQueryState('task-view', { defaultValue: 'table' })
 
   const workspaceId = useWorkspaceId()
+  const paramProjectId = useProjectId()
   const { open } = useCreateTaskModal()
 
   const { mutate: bulkUpdate } = useBulkUpdateTasks()
@@ -39,7 +41,7 @@ export const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) =
     workspaceId,
     status,
     assigneeId,
-    projectId,
+    projectId: paramProjectId || projectId,
     dueDate,
   })
 

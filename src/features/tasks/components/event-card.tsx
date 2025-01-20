@@ -1,17 +1,17 @@
+import React from 'react'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 import { Project } from '@/features/projects/types'
-import { TaskStatus } from '../types'
-
 import { MemberAvatar } from '@/features/members/components/member-avatar'
 import { ProjectsAvatar } from '@/features/projects/components/projects-avatar'
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { Member } from '@/features/members/types'
+import { TaskStatus } from '../types'
 
 interface EventCardProps {
   title: string
-  assignee: any
+  assignee: Member
   project: Project
   status: TaskStatus
   id: string

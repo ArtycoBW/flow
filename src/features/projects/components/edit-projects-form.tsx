@@ -187,7 +187,7 @@ export function EditProjectsForm({ onCancel, initialValues }: EditProjectsFormPr
               className="mt-6 w-fit ml-auto"
               size="default"
               variant="destructive"
-              disabled={isPending}
+              disabled={isPending || isDeletingProject}
               type="button"
               onClick={handleDelete}>
               Удалить проект

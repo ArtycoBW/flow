@@ -1,12 +1,10 @@
 'use client'
 
 import { z } from 'zod'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { MemberAvatar } from '@/features/members/components/member-avatar'
-import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id'
 import { Task, TaskStatus } from '@/features/tasks/types'
 import { ProjectsAvatar } from '@/features/projects/components/projects-avatar'
 import { createTaskSchema } from '@/features/tasks/schema'
@@ -29,8 +27,6 @@ interface EditTaskFormProps {
 }
 
 export function EditTaskForm({ onCancel, projectOptions, memberOptions, initialValues }: EditTaskFormProps) {
-  const workspaceId = useWorkspaceId()
-  // const router = useRouter()
   const { mutate, isPending } = useUpdateTasks()
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
