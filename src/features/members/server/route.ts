@@ -35,7 +35,7 @@ const app = new Hono()
       members.documents.map(async member => {
         const user = await users.get(member.userId)
 
-        return { ...member, name: user.name, email: user.email }
+        return { ...member, name: user.name || user.email, email: user.email }
       }),
     )
 
